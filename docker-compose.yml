@@ -1,0 +1,25 @@
+version: "3"
+services:
+  db:
+    container_name: mini_kraicklist_db
+    build:
+      context: ./db
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mini_kraicklist
+      MYSQL_USER: web
+      MYSQL_PASSWORD: pass
+    tty: true
+  app:
+    container_name: mini_kraicklist_app
+    build:
+      context: ./mini-kraicklist
+    ports:
+      - 8080:8080
+    tty: true
+    depends_on:
+      - db
+    volumes:
+      - "/mini-kraicklist"
