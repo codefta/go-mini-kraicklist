@@ -3,16 +3,27 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 )
 
 const addr = ":8080"
 
+const (
+	envKeyDBHost = "MYSQL_HOST"
+	envKeyDBPort = "MYSQL_PORT"
+	envKeyDBUser = "MYSQL_USER"
+	envKeyDBPass = "MYSQL_PASSWORD"
+	envKeyDBName = "MYSQL_DATABASE"
+)
+
 func main() {
 	// initialize storage
 	storage, err := NewStorage(StorageConfigs{
-		DBUser: GoDotEnv("MYSQL_USER"),
-		DBPass: GoDotEnv("MYSQL_PASSWORD"),
-		DBName: GoDotEnv("MYSQL_DATABASE"),
+		DBHost: os.Getenv(envKeyDBHost),
+		DBPort: os.Getenv(envKeyDBPort),
+		DBUser: os.Getenv(envKeyDBUser),
+		DBPass: os.Getenv(envKeyDBPass),
+		DBName: os.Getenv(envKeyDBName),
 	})
 	if err != nil {
 		log.Fatalf("unable to initialize storage due: %v", err)

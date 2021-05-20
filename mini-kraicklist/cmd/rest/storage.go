@@ -14,6 +14,8 @@ type Storage struct {
 }
 
 type StorageConfigs struct {
+	DBHost string
+	DBPort string
 	DBUser string
 	DBPass string
 	DBName string
@@ -21,7 +23,7 @@ type StorageConfigs struct {
 
 func NewStorage(configs StorageConfigs) (*Storage, error) {
 	// initialize db object
-	config := fmt.Sprintf("%s:%s@tcp(db:3306)/%s?parseTime=true", configs.DBUser, configs.DBPass, configs.DBName)
+	config := fmt.Sprintf("%s:%s@tcp(%v:%v)/%s?parseTime=true", configs.DBUser, configs.DBPass, configs.DBHost, configs.DBPort, configs.DBName)
 	d, err := sql.Open("mysql", config)
 	if err != nil {
 		return nil, fmt.Errorf("unable to initialize db due: %v", err)
