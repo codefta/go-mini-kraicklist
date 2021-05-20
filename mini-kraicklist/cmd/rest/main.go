@@ -3,17 +3,31 @@ package main
 import (
 	"log"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
-func main() {
-	router := mux.NewRouter()
-	router.HandleFunc("/", home).Methods(http.MethodGet)
-	router.HandleFunc("/ads", getAds).Methods(http.MethodGet)
-	router.HandleFunc("/ads", postAds).Methods(http.MethodPost)
+const addr = ":8080"
 
-	log.Println("Server running on port :8080")
-	err := http.ListenAndServe(":8080", router)
-	log.Fatal(err)
+func main() {
+	// initialize storage
+	storage, err := NewStorage(StorageConfigs{
+		DBUser: GoDotEnv("MYSQL_USER"),
+		DBPass: GoDotEnv("MYSQL_PASSWORD"),
+		DBName: GoDotEnv("MYSQL_DATABASE"),
+	})
+	if err != nil {
+		log.Fatalf("unable to initialize storage due: %v", err)
+	}
+	// initialize api
+	api, err := NewAPI(APIConfigs{
+		Storage: storage,
+	})
+	if err != nil {
+		log.Fatalf("unable to initialize api due: %v", err)
+	}
+	// execute http server
+	log.Printf("Server running on port %v", addr)
+	err = http.ListenAndServe(addr, api.GetHandler())
+	if err != nil {
+		log.Fatalf("unable to execute http server due: %v", err)
+	}
 }
