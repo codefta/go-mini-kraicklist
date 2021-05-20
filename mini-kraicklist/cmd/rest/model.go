@@ -16,9 +16,3 @@ type Tag struct {
 	ListId int
 	Name   string
 }
-
-type ResponseError struct {
-	Success bool   `json:"sucess"`
-	Err     string `json:"err"`
-	Message string `json:"message"`
-}
