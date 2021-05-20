@@ -13,16 +13,16 @@ func home(w http.ResponseWriter, r *http.Request) {
 }
 
 func getAds(w http.ResponseWriter, r *http.Request) {
-	lists := getList()
-	
-	res := map[string]interface{} {
+	lists, _ := getList()
+
+	res := map[string]interface{}{
 		"success": true,
-		"data": map[string]interface{} {
+		"data": map[string]interface{}{
 			"ads": lists,
 		},
 	}
 
-	w.Header().Set("Content-Type","application/json; charset=utf-8")
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
 
 	json.NewEncoder(w).Encode(res)
@@ -36,7 +36,7 @@ func postAds(w http.ResponseWriter, r *http.Request) {
 	err := listValidation(list)
 
 	if err != nil {
-		w.Header().Set("Content-Type","application/json; charset=utf-8")
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(http.StatusBadRequest)
 		res, _ := json.Marshal(ResponseError{
 			false,
@@ -47,14 +47,14 @@ func postAds(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	listSaved := addList(list)
+	listSaved, _ := addList(*list)
 
-	res := map[string]interface{} {
+	res := map[string]interface{}{
 		"success": true,
-		"data": listSaved,
+		"data":    listSaved,
 	}
 
-	w.Header().Set("Content-Type","application/json; charset=utf-8")
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
 
 	json.NewEncoder(w).Encode(res)
