@@ -30,13 +30,9 @@ This API is used for posting new ad.
 
 ```json
 {
-    "title": "Porsche Carrera GT 2016 for Sale",
-    "body": "Clean body & great engine!",
-    "tags": [
-        "car",
-        "porsche",
-        "porsche 2016"
-    ]
+  "title": "Porsche Carrera GT 2016 for Sale",
+  "body": "Clean body & great engine!",
+  "tags": ["car", "porsche", "porsche 2016"]
 }
 ```
 
@@ -66,16 +62,16 @@ Content-Type: application/json
 
 - Bad Request
 
-    ```json
-    HTTP/1.1 400 Bad Request
-    Content-Type: application/json
+  ```json
+  HTTP/1.1 400 Bad Request
+  Content-Type: application/json
 
-    {
-        "success": false,
-        "err": "ERR_BAD_REQUEST",
-        "message": "field `title` cannot be empty"
-    }
-    ```
+  {
+      "success": false,
+      "err": "ERR_BAD_REQUEST",
+      "message": "field `title` cannot be empty"
+  }
+  ```
 
 [Back to Top](#mini-kraicklist)
 
@@ -83,9 +79,17 @@ Content-Type: application/json
 
 ## Get Latest Ads
 
-GET: `/ads`
+GET: `/ads?limit=<limit>`
 
-This API is used for getting maximum `5` latest ads from database.
+This API is used for getting latest ads from database.
+
+If `limit` value is not specified, by default the value is `5`.
+
+**Sample Request:**
+
+```json
+GET: /ads?limit=10
+```
 
 **Success Response:**
 
@@ -106,13 +110,184 @@ Content-Type: application/json
                     "porsche",
                     "porsche 2016"
                 ],
-                "created_at": 1581931121
+                "created_at": 1581931121,
+                "updated_at": 1581931121
             }
         ]
     }
 }
 ```
 
-[Back to Top](#mini-kraicklist)
+**Error Responses:**
+
+No specific error responses
+
+[Back to Top](#mini-kraicklist-extended)
+
+---
+
+## Update Ad
+
+PUT: `/ads/<ad_id>`
+
+This API is used for updating ad.
+
+**Request Body:**
+
+- `title`, String, _optional_ => updated title of the ad
+- `body`, String, _optional_ => updated body of the ad
+- `tags`, Array of String, _optional_ => updated related tags for the ad
+
+**Sample Request:**
+
+```json
+PUT: /ads/1282323
+Content-Type: application/json
+
+{
+    "title": "Porsche Carrera GT 2016 & 2017 for Sale!",
+    "body": "Both of them have clean body & great engine!",
+    "tags": [
+        "car",
+        "porsche",
+        "porsche 2016",
+        "porsche 2017"
+    ]
+}
+```
+
+**Success Response:**
+
+```json
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "success": true,
+    "data": {
+        "id": 1282323,
+        "title": "Porsche Carrera GT 2016 & 2017 for Sale!",
+        "body": "Both of them have clean body & great engine!",
+        "tags": [
+            "car",
+            "porsche",
+            "porsche 2016",
+            "porsche 2017"
+        ],
+        "updated_at": 1582000607
+    }
+}
+```
+
+**Error Responses:**
+
+- Bad Request
+
+  ```json
+  HTTP/1.1 400 Bad Request
+  Content-Type: application/json
+
+  {
+      "success": false,
+      "err": "ERR_BAD_REQUEST",
+      "message": "at least one parameter must be specified"
+  }
+  ```
+
+- Not Found
+
+  ```json
+  HTTP/1.1 404 Not Found
+  Content-Type: application/json
+
+  {
+      "success": false,
+      "err": "ERR_NOT_FOUND",
+      "message": "data is not found"
+  }
+  ```
+
+[Back to Top](#mini-kraicklist-extended)
+
+---
+
+## Delete Ad
+
+DELETE: `/ads/<ad_id>`
+
+This API is used for deleting ad. The ad will be literally deleted from database.
+
+**Sample Request:**
+
+```json
+DELETE /ads/1282323
+```
+
+**Success Response:**
+
+```json
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "success": true,
+    "data": {
+        "id": 1282323
+    }
+}
+```
+
+**Error Responses:**
+
+- Not Found
+
+  ```json
+  HTTP/1.1 404 Not Found
+  Content-Type: application/json
+
+  {
+      "success": true,
+      "err": "ERR_NOT_FOUND",
+      "message": "data is not found"
+  }
+  ```
+
+[Back to Top](#mini-kraicklist-extended)
+
+---
+
+## Get Ad Statistics
+
+GET: `/stats`
+
+This API is used for fetching ads statistic. Currently we will only show total ads in statistic.
+
+**Sample Request:**
+
+```json
+GET /stats
+```
+
+**Success Response:**
+
+```json
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "success": true,
+    "data": {
+        "stats": {
+            "total_ads": 1
+        }
+    }
+}
+```
+
+**Error Responses:**
+
+No specific error response
+
+[Back to Top](#mini-kraicklist-extended)
 
 ---
