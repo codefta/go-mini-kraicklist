@@ -27,6 +27,7 @@ func (a *API) GetHandler() http.Handler {
 	router.HandleFunc("/ads", a.PostAds).Methods(http.MethodPost)
 	router.HandleFunc("/ads/{id}", a.UpdateAds).Methods(http.MethodPut)
 	router.HandleFunc("/ads/{id}", a.DeleteAds).Methods(http.MethodDelete)
+	router.HandleFunc("/stats", a.Getstats).Methods(http.MethodGet)
 
 	return router
 }
