@@ -12,7 +12,6 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -33,7 +32,8 @@ CREATE TABLE `ads` (
   `title` varchar(255) NOT NULL,
   `body` text NOT NULL,
   `tags` text NOT NULL,
-  `created_at` bigint(20) NOT NULL
+  `created_at` bigint(20) NOT NULL,
+  `updated_at` bigint(20) NOT NULL
 );
 
 COMMIT;

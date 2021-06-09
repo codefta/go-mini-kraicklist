@@ -4,6 +4,9 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/fathisiddiqi/go-mini-kraicklist/cmd/rest/controllers"
+	"github.com/fathisiddiqi/go-mini-kraicklist/storage"
 )
 
 const addr = ":8080"
@@ -18,7 +21,7 @@ const (
 
 func main() {
 	// initialize storage
-	storage, err := NewStorage(StorageConfigs{
+	s, err := storage.NewStorage(storage.StorageConfigs{
 		DBHost: os.Getenv(envKeyDBHost),
 		DBPort: os.Getenv(envKeyDBPort),
 		DBUser: os.Getenv(envKeyDBUser),
@@ -29,8 +32,8 @@ func main() {
 		log.Fatalf("unable to initialize storage due: %v", err)
 	}
 	// initialize api
-	api, err := NewAPI(APIConfigs{
-		Storage: storage,
+	api, err := controllers.NewAPI(controllers.APIConfigs{
+		Storage: s,
 	})
 	if err != nil {
 		log.Fatalf("unable to initialize api due: %v", err)
