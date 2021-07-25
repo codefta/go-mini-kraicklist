@@ -11,29 +11,8 @@ Your tasks:
 1. Implement the server API using Go & MySQL
 2. Containerize your server API using Docker
 3. Create deployment template using Docker Compose which include the deployment script for your server & MySQL server
-
----
-
-In this exercise we will try to extend the capability of Mini Kraicklist API server from previous exercise.
-
-We will now also includes following APIs:
-
-- [Update Ad](#update-ad)
-- [Delete Ad](#delete-ad)
-- [Get Ad Statistics](#get-ad-statistics)
-
-Beside including above APIs, we will also modify [Get Latest Ads](#get-latest-ads) to:
-
-- accept limit value from query parameter
-- return latest updated ads instead newly created ads
-
-Please check below sections for complete new API design.
-
-Your tasks:
-
-1. Implement new API design
-2. Separate components in your code to packages (e.g `Storage` should be on `storage` package not `main`)
-3. Create test files for each components
+4. Separate components in your code to packages (e.g `Storage` should be on `storage` package not `main`)
+5. Create test files for each components
 
 ---
 

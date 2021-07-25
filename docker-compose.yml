@@ -16,7 +16,7 @@ services:
   app:
     container_name: mini_kraicklist_app
     build:
-      context: ./mini-kraicklist
+      context: ./
     environment:
       MYSQL_HOST: db
       MYSQL_PORT: 3306
